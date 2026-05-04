@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard ESP32 Vinheria</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="topbar" aria-label="Resumo do dashboard">
+        <div>
+          <p class="eyebrow">FIWARE STH-Comet</p>
+          <h1>Dashboard ESP32 da vinheria</h1>
+        </div>
+
+        <div class="status-pill" id="connectionStatus">
+          <span class="dot"></span>
+          <span>Conectando</span>
+        </div>
+      </section>
+
+      <section class="sensor-grid" aria-label="Ultimas leituras">
+        <article class="sensor-card sensor-light">
+          <div class="sensor-icon" aria-hidden="true">L</div>
+          <div>
+            <p>Luminosidade</p>
+            <strong id="latestLuminosity">--</strong>
+            <small id="timeLuminosity">--</small>
+          </div>
+        </article>
+
+        <article class="sensor-card sensor-temp">
+          <div class="sensor-icon" aria-hidden="true">T</div>
+          <div>
+            <p>Temperatura</p>
+            <strong id="latestTemperature">--</strong>
+            <small id="timeTemperature">--</small>
+          </div>
+        </article>
+
+        <article class="sensor-card sensor-humidity">
+          <div class="sensor-icon" aria-hidden="true">U</div>
+          <div>
+            <p>Umidade</p>
+            <strong id="latestHumidity">--</strong>
+            <small id="timeHumidity">--</small>
+          </div>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <section class="chart-panel" aria-label="Grafico dos sensores">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Historico</p>
+              <h2>Luminosidade, temperatura e umidade</h2>
+            </div>
+            <div class="legend" id="chartLegend"></div>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="sensorChart" aria-label="Grafico unico dos sensores"></canvas>
+          </div>
+        </section>
+
+        <aside class="side-panel" aria-label="Controles e alertas">
+          <section class="controls">
+            <div class="panel-head compact">
+              <div>
+                <p class="eyebrow">Ao vivo</p>
+                <h2>Atualizacao</h2>
+              </div>
+              <button class="icon-button" id="refreshButton" type="button" title="Atualizar agora">
+                ↻
+              </button>
+            </div>
+
+            <label>
+              <span>Ultimos registros</span>
+              <input id="lastNInput" type="number" min="1" max="1000" value="50" />
+            </label>
+
+            <label>
+              <span>Intervalo</span>
+              <select id="intervalInput">
+                <option value="5000">5 s</option>
+                <option value="10000">10 s</option>
+                <option value="30000">30 s</option>
+                <option value="60000">60 s</option>
+              </select>
+            </label>
+
+            <label class="toggle">
+              <input id="liveToggle" type="checkbox" checked />
+              <span>Atualizar automaticamente</span>
+            </label>
+
+            <div class="command-row" aria-label="Comandos remotos">
+              <button data-command="alert_on" type="button">Alerta ON</button>
+              <button data-command="alert_off" type="button">Alerta OFF</button>
+              <button data-command="silence_buzzer" type="button">Silenciar</button>
+            </div>
+            <p class="message" id="commandMessage"></p>
+          </section>
+
+          <section class="alerts">
+            <div class="panel-head compact">
+              <div>
+                <p class="eyebrow">Triggers</p>
+                <h2>Alertas</h2>
+              </div>
+              <strong id="alertCount">0</strong>
+            </div>
+            <div class="alert-list" id="alertList"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
