@@ -1,103 +1,225 @@
-<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Arquitetura do projeto CP05 Edge Computing</title>
-  <desc id="desc">Fluxo entre Wokwi ESP32, broker MQTT, IoT Agent MQTT, Orion Context Broker, MongoDB, STH-Comet e dashboard Flask.</desc>
+<svg width="1280" height="1280" viewBox="0 0 1280 1280" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Arquitetura FIWARE do projeto CP05 Edge Computing</title>
+  <desc id="desc">Arquitetura em camadas com aplicacao Flask, back-end FIWARE e dispositivo IoT ESP32 Wokwi para monitoramento ambiental de vinheria.</desc>
   <defs>
     <style>
-      .bg { fill: #f5f7f6; }
-      .band { fill: #ffffff; stroke: #dce5e1; stroke-width: 2; }
-      .card { fill: #ffffff; stroke: #cfdad5; stroke-width: 2; rx: 12; }
-      .device { fill: #fff7ed; stroke: #d99017; }
-      .fiware { fill: #f0f9ff; stroke: #2878b8; }
-      .store { fill: #f4f1ff; stroke: #7b61c9; }
-      .app { fill: #fff1f5; stroke: #8f2747; }
-      .title { fill: #17201d; font: 800 26px Arial, sans-serif; }
-      .subtitle { fill: #66726e; font: 600 15px Arial, sans-serif; }
-      .label { fill: #17201d; font: 800 18px Arial, sans-serif; }
-      .small { fill: #4f5d58; font: 600 14px Arial, sans-serif; }
-      .arrow { stroke: #66726e; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
-      .mqtt { stroke: #d99017; }
-      .http { stroke: #2878b8; }
-      .cmd { stroke: #8f2747; stroke-dasharray: 9 7; }
-      .pill { fill: #edf3f1; }
+      .page { fill: #f7fbff; }
+      .lane { fill: #ffffff; stroke-width: 3; }
+      .app-lane { stroke: #7a1fa2; }
+      .backend-lane { stroke: #1769c2; }
+      .iot-lane { stroke: #2e8b22; }
+      .app-box { fill: #fbf4ff; stroke: #8b50a8; stroke-width: 3; }
+      .iot-box { fill: #f5fff2; stroke: #4a9a38; stroke-width: 3; }
+      .label-app { fill: #7a1fa2; }
+      .label-back { fill: #064fa3; }
+      .label-iot { fill: #168318; }
+      .title { fill: #17201d; font: 800 24px Arial, sans-serif; }
+      .label { fill: #17201d; font: 800 20px Arial, sans-serif; }
+      .small { fill: #17201d; font: 600 15px Arial, sans-serif; }
+      .tiny { fill: #17201d; font: 600 13px Arial, sans-serif; }
+      .blue { fill: #064fa3; }
+      .green { fill: #168318; }
+      .purple { fill: #7a1fa2; }
+      .container-front { fill: #23b7e5; stroke: #075b82; stroke-width: 2.5; }
+      .container-side { fill: #0b8fc3; stroke: #075b82; stroke-width: 2.5; }
+      .container-top { fill: #74d6f5; stroke: #075b82; stroke-width: 2.5; }
+      .icon { stroke: #4a4a4a; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-fill { fill: #f9fbff; stroke: #4a4a4a; stroke-width: 4; }
+      .fiware { fill: #103d7a; font: 800 24px Arial, sans-serif; }
+      .port { fill: #17201d; font: 800 17px Arial, sans-serif; }
+      .ngsi { stroke: #111; stroke-width: 3; stroke-dasharray: 2 8; fill: none; marker-end: url(#arrow); }
+      .mqtt { stroke: #111; stroke-width: 3; stroke-dasharray: 9 8; fill: none; marker-end: url(#arrow); }
+      .mongo { stroke: #111; stroke-width: 3; stroke-dasharray: 1 7; fill: none; marker-end: url(#arrow); }
+      .control { stroke: #7a1fa2; stroke-width: 3; stroke-dasharray: 4 8; fill: none; marker-end: url(#arrow-purple); }
+      .sensor-line { stroke: #2e8b22; stroke-width: 3; stroke-dasharray: 2 7; fill: none; }
+      .leaf { fill: #36a852; }
+      .lock { stroke: #245bff; stroke-width: 4; fill: none; }
     </style>
-    <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#66726e"/>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a1fa2"/>
     </marker>
   </defs>
 
-  <rect class="bg" width="1280" height="720"/>
-  <text x="56" y="60" class="title">CP05 Edge Computing - Monitoramento ambiental de vinheria</text>
-  <text x="56" y="88" class="subtitle">ESP32 no Wokwi publica leituras, FIWARE historiza contexto e o dashboard calcula alertas e envia comandos remotos.</text>
+  <rect class="page" width="1280" height="1280"/>
 
-  <rect x="48" y="126" width="262" height="520" rx="18" class="band"/>
-  <text x="76" y="166" class="label">Camada IoT</text>
+  <rect x="12" y="12" width="1256" height="260" rx="8" class="lane app-lane"/>
+  <rect x="188" y="38" width="1000" height="172" rx="20" class="app-box"/>
+  <text x="42" y="132" class="title label-app">Application</text>
 
-  <rect x="80" y="206" width="198" height="178" rx="12" class="card device"/>
-  <text x="108" y="244" class="label">Wokwi ESP32</text>
-  <text x="108" y="278" class="small">LDR GPIO 34</text>
-  <text x="108" y="306" class="small">DHT22 GPIO 15</text>
-  <text x="108" y="334" class="small">LED azul GPIO 19</text>
-  <text x="108" y="362" class="small">Buzzer GPIO 18</text>
+  <rect x="12" y="290" width="1256" height="665" rx="8" class="lane backend-lane"/>
+  <text x="42" y="610" class="title label-back">Back-end</text>
 
-  <rect x="80" y="430" width="198" height="116" rx="12" class="card device"/>
-  <text x="108" y="466" class="label">Topicos MQTT</text>
-  <text x="108" y="498" class="small">/TEF/wine001/attrs</text>
-  <text x="108" y="526" class="small">/TEF/wine001/cmd</text>
+  <rect x="12" y="1012" width="1256" height="238" rx="8" class="lane iot-lane"/>
+  <text x="56" y="1128" class="title label-iot">IoT</text>
+  <rect x="186" y="1040" width="950" height="140" rx="18" class="iot-box"/>
 
-  <rect x="374" y="126" width="532" height="520" rx="18" class="band"/>
-  <text x="402" y="166" class="label">Back-end FIWARE</text>
+  <!-- Application icons -->
+  <g transform="translate(230 66)">
+    <rect x="0" y="0" width="92" height="78" rx="6" class="icon-fill"/>
+    <path d="M14 54 L28 38 L43 46 L66 22 L78 28" class="icon"/>
+    <path d="M18 14 H76 M18 24 H48" class="icon"/>
+    <path d="M0 90 H92 M46 78 V90" class="icon"/>
+    <text x="-8" y="124" class="small">Dashboard Flask</text>
+  </g>
+  <g transform="translate(442 58)">
+    <path d="M0 96 H96 M0 96 V18" class="icon"/>
+    <path d="M20 80 V52 M42 80 V36 M64 80 V58 M86 80 V26" class="icon"/>
+    <path d="M8 54 L28 38 L48 48 L70 20 L92 30" class="icon"/>
+    <text x="-24" y="132" class="small">Graficos Historicos</text>
+  </g>
+  <g transform="translate(650 56)">
+    <path d="M38 86 C14 82 0 64 8 40 C12 22 28 15 42 20 C50 2 82 4 88 24 C108 24 118 44 108 62 C122 78 108 98 88 96" class="icon"/>
+    <path d="M78 36 C95 48 98 72 92 94" class="icon"/>
+    <path d="M112 68 C112 50 138 50 138 68 V92 H112 Z M108 92 H142 M120 104 H130" class="icon"/>
+    <text x="-6" y="134" class="small">Motor de Alertas</text>
+  </g>
+  <g transform="translate(842 66)">
+    <rect x="0" y="0" width="100" height="72" rx="6" class="icon-fill"/>
+    <path d="M18 18 H70 M18 36 H58 M18 54 H48" class="icon"/>
+    <path d="M78 42 L94 58 M82 26 V62" class="icon"/>
+    <text x="-10" y="124" class="small">Comando Remoto</text>
+  </g>
+  <g transform="translate(1040 62)">
+    <rect x="0" y="0" width="88" height="88" rx="8" class="icon-fill"/>
+    <circle cx="44" cy="48" r="28" class="icon"/>
+    <path d="M16 48 H72 M44 20 C30 38 30 58 44 76 M44 20 C58 38 58 58 44 76" class="icon"/>
+    <rect x="92" y="34" width="34" height="54" rx="5" class="icon-fill"/>
+    <text x="-8" y="126" class="small">Web / Browser</text>
+    <text x="28" y="148" class="small">Flask :5000</text>
+  </g>
 
-  <rect x="410" y="212" width="190" height="112" rx="12" class="card fiware"/>
-  <text x="438" y="250" class="label">Mosquitto</text>
-  <text x="438" y="282" class="small">Broker MQTT</text>
+  <!-- Container drawing symbol -->
+  <g id="container">
+    <polygon points="0,26 102,6 168,24 66,44" class="container-top"/>
+    <polygon points="0,26 66,44 66,132 0,112" class="container-front"/>
+    <polygon points="66,44 168,24 168,112 66,132" class="container-side"/>
+    <path d="M84 48 V124 M102 44 V120 M120 40 V116 M138 36 V112 M156 32 V108" stroke="#075b82" stroke-width="3"/>
+    <path d="M18 86 C36 104 58 102 72 82 C58 88 44 84 36 72 C30 76 23 80 18 86 Z" fill="#fff" stroke="#075b82" stroke-width="2"/>
+  </g>
 
-  <rect x="674" y="212" width="190" height="112" rx="12" class="card fiware"/>
-  <text x="702" y="250" class="label">IoT Agent</text>
-  <text x="702" y="282" class="small">MQTT para NGSIv2</text>
+  <!-- Back-end components -->
+  <g transform="translate(390 362)">
+    <use href="#container"/>
+    <text x="36" y="162" class="label">Orion</text>
+    <path d="M12 -18 C42 -50 86 -30 88 2 C58 -20 34 18 12 -18 Z" fill="#1e8abf" opacity="0.9"/>
+    <circle cx="48" cy="-10" r="24" fill="none" stroke="#0e5c85" stroke-width="4"/>
+  </g>
+  <text x="166" y="400" class="small">Entidade:</text>
+  <text x="166" y="424" class="small">urn:ngsi-ld:WineCellar:001</text>
 
-  <rect x="410" y="416" width="190" height="112" rx="12" class="card fiware"/>
-  <text x="438" y="454" class="label">Orion</text>
-  <text x="438" y="486" class="small">Context Broker</text>
+  <g transform="translate(704 362)">
+    <use href="#container"/>
+    <text x="8" y="162" class="label">STH-Comet</text>
+    <path d="M12 -18 C42 -50 86 -30 88 2 C58 -20 34 18 12 -18 Z" fill="#1e8abf" opacity="0.9"/>
+    <circle cx="48" cy="-10" r="24" fill="none" stroke="#0e5c85" stroke-width="4"/>
+  </g>
 
-  <rect x="674" y="416" width="190" height="112" rx="12" class="card store"/>
-  <text x="702" y="454" class="label">STH-Comet</text>
-  <text x="702" y="486" class="small">Historico temporal</text>
+  <g transform="translate(1040 362)">
+    <use href="#container"/>
+    <text x="18" y="162" class="label">MongoDB</text>
+    <text x="10" y="188" class="label">Historical</text>
+    <path d="M108 -54 C132 -28 126 8 108 28 C90 8 84 -28 108 -54 Z" class="leaf"/>
+    <path d="M108 -44 V24" stroke="#22793a" stroke-width="3"/>
+    <path d="M6 -34 H42 V8 H6 Z M12 -34 V-54 A12 12 0 0 1 36 -54 V-34" class="lock"/>
+  </g>
 
-  <rect x="542" y="572" width="196" height="52" rx="26" class="pill"/>
-  <text x="584" y="604" class="small">MongoDB persiste dados</text>
+  <g transform="translate(400 600)">
+    <use href="#container"/>
+    <text x="14" y="162" class="label">IoT Agent</text>
+    <text x="26" y="188" class="label">MQTT</text>
+    <path d="M12 -18 C42 -50 86 -30 88 2 C58 -20 34 18 12 -18 Z" fill="#1e8abf" opacity="0.9"/>
+    <circle cx="48" cy="-10" r="24" fill="none" stroke="#0e5c85" stroke-width="4"/>
+  </g>
+  <text x="166" y="722" class="small">Device: wine001</text>
 
-  <rect x="970" y="126" width="262" height="520" rx="18" class="band"/>
-  <text x="998" y="166" class="label">Aplicacao</text>
+  <g transform="translate(720 606)">
+    <use href="#container"/>
+    <text x="20" y="162" class="label">MongoDB</text>
+    <text x="22" y="188" class="label">Internal</text>
+    <path d="M116 -50 C140 -24 134 12 116 32 C98 12 92 -24 116 -50 Z" class="leaf"/>
+    <path d="M116 -40 V28" stroke="#22793a" stroke-width="3"/>
+  </g>
 
-  <rect x="1002" y="222" width="198" height="154" rx="12" class="card app"/>
-  <text x="1030" y="260" class="label">Dashboard Flask</text>
-  <text x="1030" y="292" class="small">Graficos historicos</text>
-  <text x="1030" y="320" class="small">Triggers de alerta</text>
-  <text x="1030" y="348" class="small">Comandos remotos</text>
+  <g transform="translate(488 782)">
+    <use href="#container"/>
+    <text x="-64" y="160" class="label">MQTT</text>
+    <text x="-62" y="188" class="label">Broker</text>
+  </g>
+  <text x="666" y="818" class="small">mosquitto</text>
+  <path d="M642 790 C658 810 658 836 642 856 M626 800 C636 812 636 832 626 844 M610 810 C616 818 616 828 610 836" stroke="#1f65b7" stroke-width="4" fill="none"/>
+  <circle cx="640" cy="824" r="5" fill="#f26b21"/>
 
-  <rect x="1002" y="434" width="198" height="92" rx="12" class="card app"/>
-  <text x="1030" y="470" class="label">Usuario</text>
-  <text x="1030" y="502" class="small">Navegador web</text>
+  <text x="332" y="770" class="blue small">/TEF/wine001/attrs</text>
+  <text x="332" y="794" class="blue small">/TEF/wine001/cmd</text>
+  <text x="56" y="900" class="fiware">FIWARE</text>
+  <text x="250" y="914" fill="#777" font="800 24px Arial, sans-serif">docker</text>
+  <text x="260" y="936" fill="#2680d9" font="800 15px Arial, sans-serif">compose</text>
 
-  <path class="arrow mqtt" d="M 278 267 L 410 267"/>
-  <text x="304" y="248" class="small">MQTT attrs</text>
-  <path class="arrow mqtt" d="M 600 267 L 674 267"/>
-  <path class="arrow http" d="M 769 324 L 505 416"/>
-  <text x="558" y="358" class="small">NGSIv2</text>
-  <path class="arrow http" d="M 600 472 L 674 472"/>
-  <text x="618" y="452" class="small">notify</text>
-  <path class="arrow http" d="M 1002 286 L 864 472"/>
-  <text x="888" y="354" class="small">consulta historico</text>
-  <path class="arrow cmd" d="M 1002 334 C 896 382 818 360 769 324"/>
-  <text x="832" y="316" class="small">PATCH comando</text>
-  <path class="arrow cmd" d="M 674 252 C 550 164 388 154 278 244"/>
-  <text x="398" y="190" class="small">wine001@buzzer|tipo</text>
-  <path class="arrow http" d="M 1101 434 L 1101 376"/>
+  <!-- IoT devices -->
+  <g transform="translate(360 1070)">
+    <rect x="0" y="0" width="70" height="70" rx="6" fill="#3c3c3c" stroke="#222" stroke-width="3"/>
+    <rect x="11" y="12" width="48" height="46" rx="4" fill="#1f2937"/>
+    <path d="M-22 26 H0 M-22 44 H0 M70 26 H92 M70 44 H92" stroke="#555" stroke-width="4"/>
+    <text x="-30" y="98" class="small">ESP32 Wokwi</text>
+  </g>
+  <g transform="translate(548 1060)">
+    <path d="M20 80 V18 A16 16 0 0 1 52 18 V80 A28 28 0 1 1 20 80 Z" class="icon"/>
+    <path d="M78 58 C100 80 94 104 76 116 C60 98 58 78 78 58 Z" stroke="#4a4a4a" stroke-width="4" fill="none"/>
+    <text x="-8" y="108" class="small">DHT22</text>
+  </g>
+  <g transform="translate(676 1062)">
+    <circle cx="46" cy="44" r="34" class="icon-fill"/>
+    <path d="M34 44 H58 M46 30 V58 M20 44 H8 M84 44 H96 M46 8 V0 M46 88 V100 M20 20 L10 10 M72 20 L82 10" class="icon"/>
+    <text x="24" y="106" class="small">LDR</text>
+  </g>
+  <g transform="translate(844 1066)">
+    <path d="M28 68 H76 M52 68 V94 M38 94 H66 M28 68 V34 A24 24 0 0 1 76 34 V68" stroke="#245bff" stroke-width="4" fill="none"/>
+    <path d="M20 20 L10 10 M84 20 L96 8 M52 4 V-12" stroke="#245bff" stroke-width="4"/>
+    <text x="-6" y="102" class="small">LED Azul</text>
+  </g>
+  <g transform="translate(1020 1060)">
+    <path d="M0 72 H28 L72 104 V8 L28 40 H0 Z" class="icon-fill"/>
+    <path d="M88 36 C104 52 104 68 88 84 M104 20 C132 48 132 72 104 100" class="icon"/>
+    <text x="16" y="108" class="small">Buzzer</text>
+  </g>
+  <path class="sensor-line" d="M430 1106 H548 M624 1106 H676 M772 1106 H844 M920 1106 H1020"/>
+  <text x="444" y="1212" class="green small">Sensores:</text>
+  <text x="520" y="1212" class="small">temperatura, umidade e luminosidade</text>
+  <text x="444" y="1238" class="green small">Atuadores:</text>
+  <text x="524" y="1238" class="small">LED azul e buzzer</text>
 
-  <rect x="80" y="594" width="198" height="34" rx="17" class="pill"/>
-  <text x="101" y="616" class="small">Wokwi: wine001</text>
-  <rect x="410" y="594" width="110" height="34" rx="17" class="pill"/>
-  <text x="435" y="616" class="small">smart /</text>
-  <rect x="760" y="594" width="104" height="34" rx="17" class="pill"/>
-  <text x="784" y="616" class="small">NGSIv2</text>
+  <!-- Connections -->
+  <path class="ngsi" d="M282 210 V392 H390"/>
+  <text x="296" y="248" class="port">1026</text>
+  <path class="ngsi" d="M485 210 V362"/>
+  <text x="502" y="248" class="port">8666</text>
+  <path class="ngsi" d="M558 432 H704"/>
+  <text x="586" y="420" class="port">1026</text>
+  <path class="mongo" d="M872 432 H1040"/>
+  <text x="984" y="446" class="port">27017</text>
+  <path class="ngsi" d="M486 600 V494"/>
+  <text x="424" y="546" class="port">1026</text>
+  <path class="mqtt" d="M518 600 V494"/>
+  <text x="530" y="546" class="port">4041</text>
+  <path class="mongo" d="M568 700 H720"/>
+  <text x="654" y="692" class="port">27017</text>
+  <path class="mqtt" d="M560 782 V732"/>
+  <text x="582" y="756" class="port">1883</text>
+  <path class="mqtt" d="M560 960 V1040"/>
+  <text x="466" y="1000" class="port">1883</text>
+  <path class="control" d="M834 210 V360"/>
+  <path class="control" d="M656 210 C656 318 650 318 590 318 C528 318 538 356 538 356"/>
+  <path class="control" d="M530 664 H272 C274 934 272 1074 360 1104"/>
+  <path class="control" d="M642 360 C642 522 650 620 568 620"/>
+
+  <!-- Legend -->
+  <path class="ngsi" d="M1048 830 H1130"/>
+  <text x="1140" y="838" class="small">NGSIv2</text>
+  <path class="mqtt" d="M1048 884 H1130"/>
+  <text x="1140" y="892" class="small">MQTT</text>
+  <path class="mongo" d="M1048 938 H1130"/>
+  <text x="1140" y="946" class="small">MongoDB</text>
 </svg>
