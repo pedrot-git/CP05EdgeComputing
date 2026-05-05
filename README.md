@@ -20,7 +20,7 @@ Quando uma variavel sai dos parametros, o dashboard envia um comando remoto para
 
 ## Arquitetura
 
-
+![Arquitetura CP05](assets/ARQUITETURA-CP05.png)
 
 Esta arquitetura foi adaptada para o projeto a partir do modelo de referencia FIWARE apresentado no repositorio do professor Fabio Cabrini: [FIWARE Descomplicado](https://github.com/fabiocabrini/fiware).
 
@@ -58,6 +58,8 @@ Esta arquitetura foi adaptada para o projeto a partir do modelo de referencia FI
 
 ```text
 .
+├── assets/
+│   └── ARQUITETURA-CP05.png
 ├── app.py
 ├── requirements.txt
 ├── public/
