@@ -20,7 +20,58 @@ Quando uma variavel sai dos parametros, o dashboard envia um comando remoto para
 
 ## Arquitetura
 
-![Arquitetura do projeto](assets/architecture.svg)
+```mermaid
+flowchart TB
+    subgraph APP["Application"]
+        BROWSER["Web / Browser<br/>Flask :5000"]
+        DASH["Dashboard Flask"]
+        CHARTS["Graficos historicos"]
+        ALERTS["Motor de alertas"]
+        COMMANDS["Comando remoto"]
+    end
+
+    subgraph BACK["Back-end FIWARE"]
+        ORION["Orion Context Broker<br/>:1026"]
+        STH["STH-Comet<br/>:8666"]
+        IOTA["IoT Agent MQTT<br/>:4041"]
+        MQTT["MQTT Broker<br/>:1883"]
+        MONGO_INTERNAL["MongoDB Internal<br/>:27017"]
+        MONGO_HISTORY["MongoDB Historical<br/>:27017"]
+    end
+
+    subgraph IOT["IoT"]
+        ESP32["ESP32 Wokwi<br/>Device: wine001"]
+        DHT["DHT22<br/>temperatura e umidade"]
+        LDR["LDR<br/>luminosidade"]
+        LED["LED azul"]
+        BUZZER["Buzzer"]
+    end
+
+    BROWSER --> DASH
+    DASH --> CHARTS
+    DASH --> ALERTS
+    DASH --> COMMANDS
+
+    CHARTS -->|consulta historico| STH
+    DASH -->|consulta entidade| ORION
+    COMMANDS -->|PATCH comando NGSIv2| ORION
+    ALERTS -->|buzzer: temperature/humidity/luminosity/none| ORION
+
+    ESP32 -->|/TEF/wine001/attrs| MQTT
+    MQTT -->|MQTT| IOTA
+    IOTA -->|NGSIv2| ORION
+    ORION -->|notify| STH
+    STH --> MONGO_HISTORY
+    IOTA --> MONGO_INTERNAL
+    ORION -->|/TEF/wine001/cmd| IOTA
+    IOTA -->|MQTT command| MQTT
+    MQTT --> ESP32
+
+    ESP32 --- DHT
+    ESP32 --- LDR
+    ESP32 --- LED
+    ESP32 --- BUZZER
+```
 
 Esta arquitetura foi adaptada para o projeto a partir do modelo de referencia FIWARE apresentado no repositorio do professor Fabio Cabrini: [FIWARE Descomplicado](https://github.com/fabiocabrini/fiware).
 
@@ -67,8 +118,6 @@ Esta arquitetura foi adaptada para o projeto a partir do modelo de referencia FI
 ├── firmware/
 │   └── wine001/
 │       └── wine001.ino
-└── assets/
-    └── architecture.svg
 ```
 
 ## Como Executar o Dashboard
