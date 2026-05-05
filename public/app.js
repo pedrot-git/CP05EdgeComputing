@@ -73,7 +73,9 @@ function formatTime(value) {
 
 function setStatus(status, text) {
   elements.status.classList.remove("online", "offline");
-  elements.status.classList.add(status);
+  if (status) {
+    elements.status.classList.add(status);
+  }
   elements.status.querySelector("span:last-child").textContent = text;
 }
 
@@ -321,6 +323,9 @@ async function loadData() {
     renderLatest(payload.latest);
     renderAlerts(payload.alerts);
     drawChart(payload);
+    if (payload.remoteControl?.error) {
+      elements.commandMessage.textContent = `Controle remoto: ${payload.remoteControl.error}`;
+    }
     setStatus("online", "Online");
   } catch (error) {
     setStatus("offline", "Offline");
@@ -346,7 +351,7 @@ function scheduleLiveUpdates() {
   state.timer = window.setInterval(loadData, Number(elements.intervalInput.value));
 }
 
-async function sendCommand(command) {
+async function sendCommand(command, value = "") {
   elements.commandMessage.textContent = "Enviando comando...";
 
   try {
@@ -355,7 +360,7 @@ async function sendCommand(command) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ command }),
+      body: JSON.stringify({ command, value }),
     });
     const payload = await response.json();
 
@@ -384,5 +389,5 @@ window.addEventListener("resize", () => {
 });
 
 document.querySelectorAll("[data-command]").forEach((button) => {
-  button.addEventListener("click", () => sendCommand(button.dataset.command));
+  button.addEventListener("click", () => sendCommand(button.dataset.command, button.dataset.value || ""));
 });

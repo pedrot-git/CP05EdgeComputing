@@ -1,0 +1,103 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Arquitetura do projeto CP05 Edge Computing</title>
+  <desc id="desc">Fluxo entre Wokwi ESP32, broker MQTT, IoT Agent MQTT, Orion Context Broker, MongoDB, STH-Comet e dashboard Flask.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f5f7f6; }
+      .band { fill: #ffffff; stroke: #dce5e1; stroke-width: 2; }
+      .card { fill: #ffffff; stroke: #cfdad5; stroke-width: 2; rx: 12; }
+      .device { fill: #fff7ed; stroke: #d99017; }
+      .fiware { fill: #f0f9ff; stroke: #2878b8; }
+      .store { fill: #f4f1ff; stroke: #7b61c9; }
+      .app { fill: #fff1f5; stroke: #8f2747; }
+      .title { fill: #17201d; font: 800 26px Arial, sans-serif; }
+      .subtitle { fill: #66726e; font: 600 15px Arial, sans-serif; }
+      .label { fill: #17201d; font: 800 18px Arial, sans-serif; }
+      .small { fill: #4f5d58; font: 600 14px Arial, sans-serif; }
+      .arrow { stroke: #66726e; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+      .mqtt { stroke: #d99017; }
+      .http { stroke: #2878b8; }
+      .cmd { stroke: #8f2747; stroke-dasharray: 9 7; }
+      .pill { fill: #edf3f1; }
+    </style>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#66726e"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1280" height="720"/>
+  <text x="56" y="60" class="title">CP05 Edge Computing - Monitoramento ambiental de vinheria</text>
+  <text x="56" y="88" class="subtitle">ESP32 no Wokwi publica leituras, FIWARE historiza contexto e o dashboard calcula alertas e envia comandos remotos.</text>
+
+  <rect x="48" y="126" width="262" height="520" rx="18" class="band"/>
+  <text x="76" y="166" class="label">Camada IoT</text>
+
+  <rect x="80" y="206" width="198" height="178" rx="12" class="card device"/>
+  <text x="108" y="244" class="label">Wokwi ESP32</text>
+  <text x="108" y="278" class="small">LDR GPIO 34</text>
+  <text x="108" y="306" class="small">DHT22 GPIO 15</text>
+  <text x="108" y="334" class="small">LED azul GPIO 19</text>
+  <text x="108" y="362" class="small">Buzzer GPIO 18</text>
+
+  <rect x="80" y="430" width="198" height="116" rx="12" class="card device"/>
+  <text x="108" y="466" class="label">Topicos MQTT</text>
+  <text x="108" y="498" class="small">/TEF/wine001/attrs</text>
+  <text x="108" y="526" class="small">/TEF/wine001/cmd</text>
+
+  <rect x="374" y="126" width="532" height="520" rx="18" class="band"/>
+  <text x="402" y="166" class="label">Back-end FIWARE</text>
+
+  <rect x="410" y="212" width="190" height="112" rx="12" class="card fiware"/>
+  <text x="438" y="250" class="label">Mosquitto</text>
+  <text x="438" y="282" class="small">Broker MQTT</text>
+
+  <rect x="674" y="212" width="190" height="112" rx="12" class="card fiware"/>
+  <text x="702" y="250" class="label">IoT Agent</text>
+  <text x="702" y="282" class="small">MQTT para NGSIv2</text>
+
+  <rect x="410" y="416" width="190" height="112" rx="12" class="card fiware"/>
+  <text x="438" y="454" class="label">Orion</text>
+  <text x="438" y="486" class="small">Context Broker</text>
+
+  <rect x="674" y="416" width="190" height="112" rx="12" class="card store"/>
+  <text x="702" y="454" class="label">STH-Comet</text>
+  <text x="702" y="486" class="small">Historico temporal</text>
+
+  <rect x="542" y="572" width="196" height="52" rx="26" class="pill"/>
+  <text x="584" y="604" class="small">MongoDB persiste dados</text>
+
+  <rect x="970" y="126" width="262" height="520" rx="18" class="band"/>
+  <text x="998" y="166" class="label">Aplicacao</text>
+
+  <rect x="1002" y="222" width="198" height="154" rx="12" class="card app"/>
+  <text x="1030" y="260" class="label">Dashboard Flask</text>
+  <text x="1030" y="292" class="small">Graficos historicos</text>
+  <text x="1030" y="320" class="small">Triggers de alerta</text>
+  <text x="1030" y="348" class="small">Comandos remotos</text>
+
+  <rect x="1002" y="434" width="198" height="92" rx="12" class="card app"/>
+  <text x="1030" y="470" class="label">Usuario</text>
+  <text x="1030" y="502" class="small">Navegador web</text>
+
+  <path class="arrow mqtt" d="M 278 267 L 410 267"/>
+  <text x="304" y="248" class="small">MQTT attrs</text>
+  <path class="arrow mqtt" d="M 600 267 L 674 267"/>
+  <path class="arrow http" d="M 769 324 L 505 416"/>
+  <text x="558" y="358" class="small">NGSIv2</text>
+  <path class="arrow http" d="M 600 472 L 674 472"/>
+  <text x="618" y="452" class="small">notify</text>
+  <path class="arrow http" d="M 1002 286 L 864 472"/>
+  <text x="888" y="354" class="small">consulta historico</text>
+  <path class="arrow cmd" d="M 1002 334 C 896 382 818 360 769 324"/>
+  <text x="832" y="316" class="small">PATCH comando</text>
+  <path class="arrow cmd" d="M 674 252 C 550 164 388 154 278 244"/>
+  <text x="398" y="190" class="small">wine001@buzzer|tipo</text>
+  <path class="arrow http" d="M 1101 434 L 1101 376"/>
+
+  <rect x="80" y="594" width="198" height="34" rx="17" class="pill"/>
+  <text x="101" y="616" class="small">Wokwi: wine001</text>
+  <rect x="410" y="594" width="110" height="34" rx="17" class="pill"/>
+  <text x="435" y="616" class="small">smart /</text>
+  <rect x="760" y="594" width="104" height="34" rx="17" class="pill"/>
+  <text x="784" y="616" class="small">NGSIv2</text>
+</svg>

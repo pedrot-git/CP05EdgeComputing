@@ -1,12 +1,9 @@
 {
   "name": "cp5edge-dashboard",
   "version": "1.0.0",
-  "description": "Dashboard web para leituras ESP32 via FIWARE STH-Comet",
+  "description": "Dashboard Flask para leituras ESP32 via FIWARE STH-Comet",
   "private": true,
   "scripts": {
-    "start": "node server.js"
-  },
-  "engines": {
-    "node": ">=18"
+    "start": "python app.py"
   }
 }

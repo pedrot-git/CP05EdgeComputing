@@ -96,9 +96,10 @@
             </label>
 
             <div class="command-row" aria-label="Comandos remotos">
-              <button data-command="alert_on" type="button">Alerta ON</button>
-              <button data-command="alert_off" type="button">Alerta OFF</button>
-              <button data-command="silence_buzzer" type="button">Silenciar</button>
+              <button data-command="buzzer" data-value="temperature" type="button">Temp</button>
+              <button data-command="buzzer" data-value="humidity" type="button">Umid</button>
+              <button data-command="buzzer" data-value="luminosity" type="button">Luz</button>
+              <button data-command="buzzer" data-value="none" type="button">Silenciar</button>
             </div>
             <p class="message" id="commandMessage"></p>
           </section>
